@@ -17,8 +17,9 @@ exports.onNavigatingTo = function onNavigatingTo(args) {
     page.bindingContext = new HomeViewModel();
 };
 
+const user = { name: "todor", password: "pass" };
 const activeUser = Kinvey.User.getActiveUser();
-const userPromise = activeUser ? activeUser.me() : Kinvey.User.login("todor", "pass"); // DANGER! NOT PRODUCTION CODE!
+const userPromise = activeUser ? activeUser.me() : Kinvey.User.login(user.name, user.password); // DANGER! NOT PRODUCTION CODE!
 let isLogged = false;
 
 function showToast(msg, param) {
@@ -31,7 +32,7 @@ userPromise
         if (userError.name === 'InvalidCredentialsError') {
             // clear the activeUser using logout and then initiate login and return login response
             return Kinvey.User.logout()
-                .then((logoutResult) => Kinvey.User.login(user.username, user.password));
+                .then((logoutResult) => Kinvey.User.login(user.name, user.password));
         }
         // if the error is different from InvalidCredentialsError, forward it down the chain
         return Promise.reject(userError);
