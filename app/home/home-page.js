@@ -44,11 +44,14 @@ userPromise
     .catch(e => showToast(e.message, "long"));
 
 exports.onScanResult = (scanResult) => {
-    const msg = isLogged ? `${scanResult.text} (${scanResult.format})` : "User log in is in progress, please wait";
-    const toast = showToast(msg);
+    if (isLogged) {
+        showToast(`${scanResult.text} (${scanResult.format})`);
     
-    const barCodesDataStore = Kinvey.DataStore.collection("barCodesScans");
-    barCodesDataStore.save({ code: scanResult.text, format: scanResult.format })
-        .then(data => showToast("Barcode was saved"))
-        .catch(err => showToast(err.message, "long"));
+        Kinvey.DataStore.collection("barCodesScans")
+            .save({ code: scanResult.text, format: scanResult.format })
+                .then(data => showToast("Barcode was saved"))
+                .catch(err => showToast(err.message));
+    } else {
+        showToast("User log in is in progress, please wait");
+    }
 }
