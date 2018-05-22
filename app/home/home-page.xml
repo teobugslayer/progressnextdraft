@@ -1,0 +1,22 @@
+<Page class="page"
+    navigatingTo="onNavigatingTo"  
+    xmlns="http://schemas.nativescript.org/tns.xsd"
+    xmlns:Barcode="nativescript-barcodescanner">
+
+    <ActionBar class="action-bar">
+        <Label class="action-bar-title" text="Barcode Scanner Demo"></Label>
+    </ActionBar>
+
+    <iOS>
+    <GridLayout>
+        <Barcode:BarcodeScannerView
+            class="scanner-round"
+            formats="QR_CODE, EAN_13"
+            beepOnScan="true"
+            reportDuplicates="true"
+            preferFrontCamera="false"
+            scanResult="onScanResult" />
+        <Image src="~/images/crosshair.png" width="140" height="140" style="margin-top: 14; opacity: 0.3" horizontalAlignment="center" verticalAlignment="center"/>
+    </GridLayout>
+    </iOS>
+</Page>
